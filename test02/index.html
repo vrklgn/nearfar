@@ -118,7 +118,7 @@
 
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
-            const score = Math.max(0, 100 - distance / 10); // Example scoring formula
+            const score = Math.max(0, 100 - distance / 5); // Example scoring formula
             let locked = 1;
             console.log(locked)
 
