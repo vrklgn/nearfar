@@ -19,8 +19,8 @@
         }
         #game-container {
             position: relative;
-            width: 432px; /* Fixed width for 9:16 ratio */
-            height: 1008px; /* Fixed height for 9:16 ratio */
+            width: 1050px; /* Fixed width for 21:9 ratio */
+            height: 450px; /* Fixed height for 21:9 ratio */
             border: 2px solid #fff; /* Changed border color to white */
             background-color: white;
             display: flex;
@@ -55,15 +55,15 @@
         }
         #confirm-box {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #fff; /* Changed border color to white */
             padding: 10px;
             border-radius: 5px;
             display: flex;
-            gap: 10px;
-            font-size: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            gap: 5px;
         }
         #score {
             display: none;
@@ -93,18 +93,23 @@
     </style>
 </head>
 <body>
+    <h1>Close Enough...</h1>
     <div id="game-container">
         <img id="game-image" src="sweden.png" alt="Game Image">
         <div id="marker"></div>
         <div id="position-text"></div>
         <div id="confirm-box">
-            <button id="confirm-yes">CONFIRM ✅</button>
+            <button id="confirm-yes">Confirm Selection</button>
+        </div>
+        <div id="zoom-controls">
+            <button id="zoom-in">Zoom In</button>
+            <button id="zoom-out">Zoom Out</button>
         </div>
     </div>
     <h2 id="score"></h2>
 
     <script>
-        const targetPosition = { x: 225, y: 400 }; // Example target position based on fixed container size
+        const targetPosition = { x: 525, y: 225 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
         let zoomLevel = 1;
 
