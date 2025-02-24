@@ -79,7 +79,7 @@
         <div id="marker"></div>
         <div id="position-text"></div>
         <div id="confirm-box">
-            <button id="confirm-yes">Confirm Selection</button>
+            <button id="confirm-yes">✅ LOCK IN!</button>
         </div>
     </div>
     <h2 id="score"></h2>
@@ -116,7 +116,7 @@
             positionText.style.display = 'none';
 
             // Display the score in full screen
-            scoreDisplay.textContent = `${score.toFixed(2)}`;
+            scoreDisplay.textContent = `${score.toFixed(2)}</br>${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)}`;
             scoreDisplay.style.display = 'block';
         });
 
