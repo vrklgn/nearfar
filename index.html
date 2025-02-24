@@ -1,21 +1,27 @@
+<!-- START GENAI -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Near Far</title>
+    <title>Image Click Game</title>
     <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
         #game-container {
             position: relative;
-            width: 100%;
-            height: 100vh;
-            margin: 0 auto;
+            width: 450px; /* Fixed width for 9:16 ratio */
+            height: 800px; /* Fixed height for 9:16 ratio */
             border: 2px solid #000;
             background-color: white;
             display: flex;
@@ -48,10 +54,7 @@
             display: none;
         }
         #confirm-box {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 20px;
             background-color: #fff;
             border: 2px solid #000;
             padding: 10px;
@@ -74,18 +77,17 @@
         <img id="game-image" src="sweden.png" alt="Game Image">
         <div id="marker"></div>
         <div id="position-text"></div>
-        <div id="confirm-box">
-            <button id="confirm-yes">LOCK IN!</button>
-        </div>
+    </div>
+    <div id="confirm-box">
+        <button id="confirm-yes">LOCK IN!</button>
     </div>
     <h2 id="score"></h2>
 
     <script>
-        const targetPosition = { x: 1311, y: 1394 }; // Example target position
+        const targetPosition = { x: 226, y: 581 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
 
         const gameContainer = document.getElementById('game-container');
-        const gameImage = document.getElementById('game-image');
         const marker = document.getElementById('marker');
         const positionText = document.getElementById('position-text');
         const confirmBox = document.getElementById('confirm-box');
@@ -93,14 +95,12 @@
 
         gameContainer.addEventListener('click', (event) => {
             const rect = gameContainer.getBoundingClientRect();
-            const scaleX = gameImage.naturalWidth / gameImage.width;
-            const scaleY = gameImage.naturalHeight / gameImage.height;
 
-            selectedPosition.x = (event.clientX - rect.left) * scaleX;
-            selectedPosition.y = (event.clientY - rect.top) * scaleY;
+            selectedPosition.x = event.clientX - rect.left;
+            selectedPosition.y = event.clientY - rect.top;
 
-            marker.style.left = `${event.clientX - rect.left}px`;
-            marker.style.top = `${event.clientY - rect.top}px`;
+            marker.style.left = `${selectedPosition.x}px`;
+            marker.style.top = `${selectedPosition.y}px`;
             marker.style.display = 'block';
 
             // Display the position text
@@ -113,6 +113,7 @@
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
 
             // Hide the image, the confirm button, the marker, and the position text
+            const gameImage = document.getElementById('game-image');
             gameImage.style.display = 'none';
             confirmBox.style.display = 'none';
             marker.style.display = 'none';
@@ -125,3 +126,4 @@
     </script>
 </body>
 </html>
+<!-- END GENAI -->
