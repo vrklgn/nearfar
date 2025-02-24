@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Click Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: white;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            border: 2px solid #000;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #game-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        #marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        #position-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            display: none;
+        }
+        #confirm-box {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            border: 2px solid #000;
+            padding: 10px;
+        }
+        #confirm-box button {
+            margin: 5px;
+        }
+        #score {
+            display: none;
+            font-size: 5rem;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Click Game</h1>
+    <div id="game-container">
+        <img id="game-image" src="sweden.png" alt="Game Image">
+        <div id="marker"></div>
+        <div id="position-text"></div>
+        <div id="confirm-box">
+            <button id="confirm-yes">Confirm Selection</button>
+        </div>
+    </div>
+    <h2 id="score">Score: </h2>
+
+    <script>
+        const targetPosition = { x: 1311, y: 1394 }; // Example target position
+        let selectedPosition = { x: 0, y: 0 };
+
+        const gameContainer = document.getElementById('game-container');
+        const gameImage = document.getElementById('game-image');
+        const marker = document.getElementById('marker');
+        const positionText = document.getElementById('position-text');
+        const confirmBox = document.getElementById('confirm-box');
+        const scoreDisplay = document.getElementById('score');
+
+        gameContainer.addEventListener('click', (event) => {
+            const rect = gameContainer.getBoundingClientRect();
+            const scaleX = gameImage.naturalWidth / gameImage.width;
+            const scaleY = gameImage.naturalHeight / gameImage.height;
+
+            selectedPosition.x = (event.clientX - rect.left) * scaleX;
+            selectedPosition.y = (event.clientY - rect.top) * scaleY;
+
+            marker.style.left = `${event.clientX - rect.left}px`;
+            marker.style.top = `${event.clientY - rect.top}px`;
+            marker.style.display = 'block';
+
+            // Display the position text
+            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
+            positionText.style.display = 'block';
+        });
+
+        document.getElementById('confirm-yes').addEventListener('click', () => {
+            const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
+            const score = Math.max(0, 100 - distance / 10); // Example scoring formula
+
+            // Hide the image, the confirm button, the marker, and the position text
+            gameImage.style.display = 'none';
+            confirmBox.style.display = 'none';
+            marker.style.display = 'none';
+            positionText.style.display = 'none';
+
+            // Display the score in full screen
+            scoreDisplay.textContent = `Score: ${score.toFixed(2)}`;
+            scoreDisplay.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
