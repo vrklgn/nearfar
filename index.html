@@ -96,6 +96,7 @@
         const targetPosition = { x: 525, y: 225 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
         let zoomLevel = 1;
+        let locked = 0;
 
         const gameContainer = document.getElementById('game-container');
         const gameImage = document.getElementById('game-image');
@@ -117,6 +118,7 @@
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
+            let locked = 1;
 
             // Hide the image, the confirm button, and the marker
             gameImage.style.display = 'none';
@@ -135,6 +137,7 @@
         });
 
         function updateMarkerPosition() {
+            if (locked = 0) {
             marker.style.left = `${selectedPosition.x * zoomLevel}px`;
             marker.style.top = `${selectedPosition.y * zoomLevel}px`;
             marker.style.display = 'block';
@@ -147,6 +150,7 @@
             // Display the position text
             positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
             positionText.style.display = 'block';
+            } 
         }
                 // Add event listeners for mouse wheel zoom
         gameContainer.addEventListener('wheel', (event) => {
