@@ -77,11 +77,11 @@
 <body>
     <h1>Close Enough...</h1>
     <div id="game-container">
-        <img id="game-image" src="sweden.png" alt="Game Image">
+        <img id="game-image" src="your-image.jpg" alt="Game Image">
         <div id="marker"></div>
         <div id="position-text"></div>
         <div id="confirm-box">
-            <button id="confirm-yes">LOCK IN!</button>
+            <button id="confirm-yes">Confirm Selection</button>
         </div>
     </div>
     <h2 id="score"></h2>
@@ -90,6 +90,7 @@
         const targetPosition = { x: 214, y: 553 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
         let zoomLevel = 1;
+        let initialDistance = 0;
 
         const gameContainer = document.getElementById('game-container');
         const gameImage = document.getElementById('game-image');
@@ -128,7 +129,7 @@
             scoreDisplay.style.display = 'block';
         });
 
-        // Handle zoom
+        // Handle zoom for mouse wheel
         gameContainer.addEventListener('wheel', (event) => {
             event.preventDefault();
             if (event.deltaY < 0) {
@@ -140,6 +141,30 @@
             }
             gameImage.style.transform = `scale(${zoomLevel})`;
         });
+
+        // Handle zoom for touch devices
+        gameContainer.addEventListener('touchstart', (event) => {
+            if (event.touches.length === 2) {
+                initialDistance = getDistance(event.touches[0], event.touches[1]);
+            }
+        });
+
+        gameContainer.addEventListener('touchmove', (event) => {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                const currentDistance = getDistance(event.touches[0], event.touches[1]);
+                const scaleChange = currentDistance / initialDistance;
+                zoomLevel = Math.min(Math.max(zoomLevel * scaleChange, 1), 3); // Limit zoom levels
+                initialDistance = currentDistance;
+                gameImage.style.transform = `scale(${zoomLevel})`;
+            }
+        });
+
+        function getDistance(touch1, touch2) {
+            const dx = touch1.clientX - touch2.clientX;
+            const dy = touch1.clientY - touch2.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
     </script>
 </body>
 </html>
