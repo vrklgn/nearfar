@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Click Game</title>
+    <title>Close Enough...</title>
     <style>
         body {
             text-align: center;
@@ -21,7 +21,7 @@
             position: relative;
             width: 450px; /* Fixed width for 9:16 ratio */
             height: 800px; /* Fixed height for 9:16 ratio */
-            border: 2px solid #000;
+            border: 2px solid #fff; /* Changed border color to white */
             background-color: white;
             display: flex;
             justify-content: center;
@@ -32,6 +32,7 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            transition: transform 0.25s ease; /* Smooth zoom transition */
         }
         #marker {
             position: absolute;
@@ -48,7 +49,7 @@
             left: 10px;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 5px;
-            border: 1px solid #000;
+            border: 1px solid #fff; /* Changed border color to white */
             border-radius: 5px;
             display: none;
         }
@@ -57,7 +58,7 @@
             bottom: 10px;
             left: 10px;
             background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #000;
+            border: 1px solid #fff; /* Changed border color to white */
             padding: 10px;
             border-radius: 5px;
             display: flex;
@@ -74,7 +75,7 @@
     </style>
 </head>
 <body>
-    <h1>Image Click Game</h1>
+    <h1>Close Enough...</h1>
     <div id="game-container">
         <img id="game-image" src="your-image.jpg" alt="Game Image">
         <div id="marker"></div>
@@ -83,13 +84,15 @@
             <button id="confirm-yes">Confirm Selection</button>
         </div>
     </div>
-    <h2 id="score">Score: </h2>
+    <h2 id="score"></h2>
 
     <script>
         const targetPosition = { x: 225, y: 400 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
+        let zoomLevel = 1;
 
         const gameContainer = document.getElementById('game-container');
+        const gameImage = document.getElementById('game-image');
         const marker = document.getElementById('marker');
         const positionText = document.getElementById('position-text');
         const confirmBox = document.getElementById('confirm-box');
@@ -98,8 +101,8 @@
         gameContainer.addEventListener('click', (event) => {
             const rect = gameContainer.getBoundingClientRect();
 
-            selectedPosition.x = event.clientX - rect.left;
-            selectedPosition.y = event.clientY - rect.top;
+            selectedPosition.x = (event.clientX - rect.left) / zoomLevel;
+            selectedPosition.y = (event.clientY - rect.top) / zoomLevel;
 
             marker.style.left = `${selectedPosition.x}px`;
             marker.style.top = `${selectedPosition.y}px`;
@@ -115,15 +118,27 @@
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
 
             // Hide the image, the confirm button, the marker, and the position text
-            const gameImage = document.getElementById('game-image');
             gameImage.style.display = 'none';
             confirmBox.style.display = 'none';
             marker.style.display = 'none';
             positionText.style.display = 'none';
 
             // Display the score in full screen
-            scoreDisplay.textContent = `Score: ${score.toFixed(2)}`;
+            scoreDisplay.textContent = `${score.toFixed(2)}`;
             scoreDisplay.style.display = 'block';
+        });
+
+        // Handle zoom
+        gameContainer.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            if (event.deltaY < 0) {
+                // Zoom in
+                zoomLevel = Math.min(zoomLevel + 0.1, 3); // Limit max zoom level to 3
+            } else {
+                // Zoom out
+                zoomLevel = Math.max(zoomLevel - 0.1, 1); // Limit min zoom level to 1
+            }
+            gameImage.style.transform = `scale(${zoomLevel})`;
         });
     </script>
 </body>
