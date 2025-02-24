@@ -163,16 +163,6 @@
             }
         }
                 // Add event listeners for mouse wheel zoom
-        gameContainer.addEventListener('wheel', (event) => {
-            event.preventDefault();
-            if (event.deltaY < 0) {
-                zoomLevel = Math.min(zoomLevel + 0.1, 3); // Limit max zoom level to 3
-            } else {
-                zoomLevel = Math.max(zoomLevel - 0.1, 1); // Limit min zoom level to 1
-            }
-            gameImage.style.transform = `scale(${zoomLevel})`;
-            updateMarkerPosition();
-        });
     </script>
 </body>
 </html>
