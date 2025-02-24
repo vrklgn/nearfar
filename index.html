@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Near,Far.</title>
+    <title>Image Click Game</title>
     <style>
         body {
             text-align: center;
@@ -21,6 +21,7 @@
             position: relative;
             width: 450px; /* Fixed width for 9:16 ratio */
             height: 800px; /* Fixed height for 9:16 ratio */
+            border: 2px solid #000;
             background-color: white;
             display: flex;
             justify-content: center;
@@ -62,9 +63,6 @@
             display: flex;
             gap: 5px;
         }
-        #confirm-box button {
-            margin: 5px;
-        }
         #score {
             display: none;
             font-size: 5rem;
@@ -77,17 +75,17 @@
 </head>
 <body>
     <div id="game-container">
-        <img id="game-image" src="sweden.png" alt="Game Image">
+        <img id="game-image" src="image.png" alt="Game Image">
         <div id="marker"></div>
         <div id="position-text"></div>
-    </div>
-    <div id="confirm-box">
-        <button id="confirm-yes">LOCK IN!</button>
+        <div id="confirm-box">
+            <button id="confirm-yes">LOCK IN!</button>
+        </div>
     </div>
     <h2 id="score"></h2>
 
     <script>
-        const targetPosition = { x: 226, y: 581 }; // Example target position based on fixed container size
+        const targetPosition = { x: 225, y: 400 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
 
         const gameContainer = document.getElementById('game-container');
