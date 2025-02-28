@@ -75,7 +75,7 @@
 
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - currentGame.targetPosition.x, 2) + Math.pow(selectedPosition.y - currentGame.targetPosition.y, 2));
-            const score = Math.max(0, 100 - distance); // Example scoring formula
+            const score = Math.max(0, 1000 - distance); // Example scoring formula
             locked = 1;
 
             // Hide the image, the confirm button, and the marker
