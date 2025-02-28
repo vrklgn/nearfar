@@ -22,7 +22,7 @@ h1 {
             width: 800px; /* Fixed width for 21:9 ratio */
             height: 800px; /* Fixed height for 21:9 ratio */
             border: 2px solid #fff; /* Changed border color to white */
-            background-color: #000;
+            background-color: #476930;
             display: flex;
             justify-content: center;
             border-radius: 20%
