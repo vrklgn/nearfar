@@ -12,7 +12,7 @@
 </head>
 <body>
     <div id="game-selection">
-        <h1>Close Enough...</h1>
+        <h1>Select a game</h1>
         <button class="game-button" data-game="1">Game 1</button>
         <button class="game-button" data-game="2">Game 2</button>
         <button class="game-button" data-game="3">Game 3</button>
@@ -31,7 +31,7 @@
     <script>
         const games = {
             1: { image: 'map01.png', targetPosition: { x: 390, y: 545 } },
-            2: { image: 'map02.png', targetPosition: { x: 640, y: 323 } },
+            2: { image: 'map02.png', targetPosition: { x: 500, y: 300 } },
             3: { image: 'map03.png', targetPosition: { x: 200, y: 450 } }
         };
 
@@ -101,9 +101,15 @@
             marker.style.top = `${selectedPosition.y - marker.offsetHeight / 2}px`;
             marker.style.display = 'block';
 
-            // Position the confirm box above the marker
+            // Adjust the confirm box position based on the selected position
+            if (selectedPosition.y < 20) {
+                // Place the confirm box below the marker if near the top
+                confirmBox.style.top = `${selectedPosition.y + 20}px`;
+            } else {
+                // Place the confirm box above the marker otherwise
+                confirmBox.style.top = `${selectedPosition.y - 40}px`;
+            }
             confirmBox.style.left = `${selectedPosition.x}px`;
-            confirmBox.style.top = `${selectedPosition.y - 20}px`; // Adjust the value to control the distance above the marker
             confirmBox.style.display = 'block';
 
             // Display the position text
