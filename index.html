@@ -4,82 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Close Enough...</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        #game-container {
-            position: relative;
-            width: 1000px; /* Fixed width for 21:9 ratio */
-            height: 600px; /* Fixed height for 21:9 ratio */
-            border: 2px solid #fff; /* Changed border color to white */
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align items to the top */
-            overflow: hidden;
-        }
-        #game-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.25s ease; /* Smooth zoom transition */
-        }
-        #marker {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
-        #position-text {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px;
-            border: 1px solid #fff; /* Changed border color to white */
-            border-radius: 5px;
-            display: none;
-            color: #000;
-        }
-        #confirm-box {
-            position: absolute;
-            transform: translate(-50%, -100%); /* Position above the marker */
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #fff; /* Changed border color to white */
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        #score {
-            display: none;
-            font-size: 5rem;
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        #final-position-text {
-            display: none;
-            font-size: 1rem;
-            position: fixed;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="game-container">
@@ -89,7 +14,6 @@
             <button id="confirm-yes">Confirm Selection</button>
         </div>
     </div>
-    <div id="position-text"></div>
     <h2 id="score"></h2>
     <div id="final-position-text"></div>
 
@@ -97,13 +21,11 @@
         const targetPosition = { x: 525, y: 225 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
         let zoomLevel = 1;
-        let locked = 0;
 
         const gameContainer = document.getElementById('game-container');
         const gameImage = document.getElementById('game-image');
         const marker = document.getElementById('marker');
         const confirmBox = document.getElementById('confirm-box');
-        const positionText = document.getElementById('position-text');
         const scoreDisplay = document.getElementById('score');
         const finalPositionText = document.getElementById('final-position-text');
 
@@ -119,17 +41,11 @@
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
-            let locked = 1;
-            console.log(locked)
 
             // Hide the image, the confirm button, and the marker
             gameImage.style.display = 'none';
             confirmBox.style.display = 'none';
             marker.style.display = 'none';
-            positionText.style.display = 'none';
-            positionText.style.color = '#FFF';
-
-            gameContainer.style.display='none';
 
             // Display the score in full screen
             scoreDisplay.textContent = `${score.toFixed(2)}`;
@@ -138,11 +54,9 @@
             // Display the final position text
             finalPositionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
             finalPositionText.style.display = 'block';
-            
         });
 
         function updateMarkerPosition() {
-            if (locked == 0) {
             marker.style.left = `${selectedPosition.x * zoomLevel}px`;
             marker.style.top = `${selectedPosition.y * zoomLevel}px`;
             marker.style.display = 'block';
@@ -151,18 +65,19 @@
             confirmBox.style.left = `${selectedPosition.x * zoomLevel}px`;
             confirmBox.style.top = `${selectedPosition.y * zoomLevel - 20}px`; // Adjust the value to control the distance above the marker
             confirmBox.style.display = 'block';
-
-            // Display the position text
-            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
-            positionText.style.display = 'block';
-            } else {
-                marker.style.display = 'none';
-                confirm.style.display = 'none';
-                confirmBox.style.display = 'none';
-                positionText.style.display = 'none';
-            }
         }
-                // Add event listeners for mouse wheel zoom
+
+        // Add event listeners for mouse wheel zoom
+        gameContainer.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            if (event.deltaY < 0) {
+                zoomLevel = Math.min(zoomLevel + 0.1, 3); // Limit max zoom level to 3
+            } else {
+                zoomLevel = Math.max(zoomLevel - 0.1, 1); // Limit min zoom level to 1
+            }
+            gameImage.style.transform = `scale(${zoomLevel})`;
+            updateMarkerPosition();
+        });
     </script>
 </body>
 </html>
