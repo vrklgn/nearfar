@@ -34,10 +34,10 @@
         const finalPositionText = document.getElementById('final-position-text');
 
         gameContainer.addEventListener('click', (event) => {
-            const rect = gameImage.getBoundingClientRect();
+            const rect = gameContainer.getBoundingClientRect();
 
-            selectedPosition.x = ((event.clientX - rect.left) / rect.width) * gameImage.width;
-            selectedPosition.y = ((event.clientY - rect.top) / rect.height) * gameImage.height;
+            selectedPosition.x = (event.clientX - rect.left);
+            selectedPosition.y = (event.clientY - rect.top);
 
             updateMarkerPosition();
         });
