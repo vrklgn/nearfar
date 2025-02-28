@@ -1,98 +1,100 @@
+/* START GENAI */
 body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            color: #FFF;
-        }
-h1 {
-              font-family: "Playwrite IT Moderna", serif;
-            font-optical-sizing: auto;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 4em;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: #FFF;
 }
-        #game-container {
-            position: relative;
-            width: 800px; /* Fixed width for 21:9 ratio */
-            height: 800px; /* Fixed height for 21:9 ratio */
-            border: 2px solid #fff; /* Changed border color to white */
-            background-color: #476930;
-            display: flex;
-            justify-content: center;
-            border-radius: 20%
-            align-items: flex-start; /* Align items to the top */
-            overflow: hidden;
-        }
-        #game-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.25s ease; /* Smooth zoom transition */
-        }
-        #marker {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
-        #position-text {
-   position: absolute;
-            bottom: 10px;
-            left: 10px;
-            color: white;
-            font-size: 14px;
-        }
-        #confirm-box {
-            position: absolute;
-            transform: translate(-50%, -100%); /* Position above the marker */
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 15px;
-            border-radius: 25px;
-            display: none;
-        }
-        #score {
-            display: none;
-            font-size: 5rem;
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        #final-position-text {
-            display: none;
-            font-size: 1rem;
-            position: fixed;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-       #position-text {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            color: white;
-            font-size: 14px;
-        }
-        
-        @media screen and (orientation: portrait) {
-            #game-container {
-                height: 100vh;
-                width: 100vw;
-            }
-        }
 
-        @media screen and (orientation: landscape) {
-            #game-container {
-                height: 100vh;
-                width: 100vw;
-            }
-        }
+h1 {
+    font-family: "Playwrite IT Moderna", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 4em;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    border: 2px solid #fff;
+    background-color: #476930;
+    display: flex;
+    justify-content: center;
+    border-radius: 20%;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+#game-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.25s ease;
+}
+
+#marker {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+#position-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+#confirm-box {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 25px;
+    display: none;
+}
+
+#score {
+    display: none;
+    font-size: 5rem;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#final-position-text {
+    display: none;
+    font-size: 1rem;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (orientation: portrait) {
+    #game-container {
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    #game-container {
+        height: 100vh;
+        width: 100vw;
+    }
+}
