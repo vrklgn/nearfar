@@ -116,6 +116,18 @@
             positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
             positionText.style.display = 'block';
         }
+
+                // Adjust the marker position and confirm box on orientation change
+        window.addEventListener('orientationchange', () => {
+            if (currentGame && !locked) {
+                const rect = gameContainer.getBoundingClientRect();
+
+                selectedPosition.x = selectedPosition.x / rect.width * gameContainer.clientWidth;
+                selectedPosition.y = selectedPosition.y / rect.height * gameContainer.clientHeight;
+
+                updateMarkerPosition();
+            }
+        });
     </script>
 </body>
 </html>
