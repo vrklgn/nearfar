@@ -30,10 +30,10 @@
         const finalPositionText = document.getElementById('final-position-text');
 
         gameContainer.addEventListener('click', (event) => {
-            const rect = gameContainer.getBoundingClientRect();
+            const rect = gameImage.getBoundingClientRect();
 
-            selectedPosition.x = (event.clientX - rect.left) / zoomLevel;
-            selectedPosition.y = (event.clientY - rect.top) / zoomLevel;
+            selectedPosition.x = (event.clientX - rect.left) / rect.width * gameImage.naturalWidth;
+            selectedPosition.y = (event.clientY - rect.top) / rect.height * gameImage.naturalHeight;
 
             updateMarkerPosition();
         });
@@ -57,13 +57,15 @@
         });
 
         function updateMarkerPosition() {
-            marker.style.left = `${selectedPosition.x * zoomLevel}px`;
-            marker.style.top = `${selectedPosition.y * zoomLevel}px`;
+            const rect = gameImage.getBoundingClientRect();
+
+            marker.style.left = `${(selectedPosition.x / gameImage.naturalWidth) * rect.width}px`;
+            marker.style.top = `${(selectedPosition.y / gameImage.naturalHeight) * rect.height}px`;
             marker.style.display = 'block';
 
             // Position the confirm box above the marker
-            confirmBox.style.left = `${selectedPosition.x * zoomLevel}px`;
-            confirmBox.style.top = `${selectedPosition.y * zoomLevel - 20}px`; // Adjust the value to control the distance above the marker
+            confirmBox.style.left = `${(selectedPosition.x / gameImage.naturalWidth) * rect.width}px`;
+            confirmBox.style.top = `${(selectedPosition.y / gameImage.naturalHeight) * rect.height - 20}px`; // Adjust the value to control the distance above the marker
             confirmBox.style.display = 'block';
         }
 
