@@ -8,6 +8,7 @@ body {
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            color: #FFF;
         }
         #game-container {
             position: relative;
@@ -46,7 +47,7 @@ body {
             border: 1px solid #fff; /* Changed border color to white */
             border-radius: 5px;
             display: none;
-            color: #000;
+            color: #FFF;
         }
         #confirm-box {
             position: absolute;
