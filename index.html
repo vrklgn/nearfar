@@ -1,3 +1,4 @@
+<!-- START GENAI -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <title>Close Enough...</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Playwrite+IT+Moderna&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Playwrite+IT+Moderna&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="game-selection">
@@ -78,6 +79,7 @@
             const percentageScore = Math.max(0, (1 - distance / maxDistance) * 100);
             locked = 1;
 
+            // Hide the image, the confirm button, and the marker
             gameImage.style.display = 'none';
             confirmBox.style.display = 'none';
             marker.style.display = 'none';
@@ -85,9 +87,11 @@
 
             gameContainer.style.display = 'none';
 
+            // Display the score in full screen
             scoreDisplay.textContent = `Score: ${percentageScore.toFixed(2)}%`;
             scoreDisplay.style.display = 'block';
 
+            // Display the final position text
             finalPositionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
             finalPositionText.style.display = 'block';
         });
@@ -97,28 +101,21 @@
             marker.style.top = `${selectedPosition.y - marker.offsetHeight / 2}px`;
             marker.style.display = 'block';
 
+            // Adjust the confirm box position based on the selected position
             if (selectedPosition.y < 100) {
+                // Place the confirm box below the marker if near the top
                 confirmBox.style.top = `${selectedPosition.y + 80}px`;
             } else {
+                // Place the confirm box above the marker otherwise
                 confirmBox.style.top = `${selectedPosition.y - 40}px`;
             }
             confirmBox.style.left = `${selectedPosition.x}px`;
             confirmBox.style.display = 'block';
 
+            // Display the position text
             positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
             positionText.style.display = 'block';
         }
-
-        window.addEventListener('orientationchange', () => {
-            if (currentGame && !locked) {
-                const rect = gameContainer.getBoundingClientRect();
-
-                selectedPosition.x = selectedPosition.x / rect.width * gameContainer.clientWidth;
-                selectedPosition.y = selectedPosition.y / rect.height * gameContainer.clientHeight;
-
-                updateMarkerPosition();
-            }
-        });
     </script>
 </body>
 </html>
