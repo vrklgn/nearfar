@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Close Enough...</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Playwrite+IT+Moderna:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="game-selection">
         <h1>Close Enough...</h1>
-        <button class="game-button" data-game="1">ROUND 01</button>
-        <button class="game-button" data-game="2">ROUND 02</button>
-        <button class="game-button" data-game="3">ROUND 03</button>
+        <button class="game-button" data-game="1">Game 1</button>
+        <button class="game-button" data-game="2">Game 2</button>
+        <button class="game-button" data-game="3">Game 3</button>
     </div>
     <div id="game-container" style="display: none;">
         <img id="game-image" src="" alt="Game Image">
@@ -31,13 +28,14 @@
     <script>
         const games = {
             1: { image: 'map01.png', targetPosition: { x: 390, y: 545 } },
-            2: { image: 'map02.png', targetPosition: { x: 643, y: 319 } },
+            2: { image: 'map02.png', targetPosition: { x: 500, y: 300 } },
             3: { image: 'map03.png', targetPosition: { x: 200, y: 450 } }
         };
 
         let selectedPosition = { x: 0, y: 0 };
         let locked = 0;
         let currentGame = null;
+        const maxDistance = Math.sqrt(800 * 800 + 800 * 800);
 
         const gameSelection = document.getElementById('game-selection');
         const gameContainer = document.getElementById('game-container');
@@ -75,7 +73,7 @@
 
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - currentGame.targetPosition.x, 2) + Math.pow(selectedPosition.y - currentGame.targetPosition.y, 2));
-            const score = Math.max(0, 1000 - distance); // Example scoring formula
+            const percentageScore = Math.max(0, (1 - distance / maxDistance) * 100);
             locked = 1;
 
             // Hide the image, the confirm button, and the marker
@@ -87,7 +85,7 @@
             gameContainer.style.display = 'none';
 
             // Display the score in full screen
-            scoreDisplay.textContent = `${score.toFixed(2)}`;
+            scoreDisplay.textContent = `Score: ${percentageScore.toFixed(2)}%`;
             scoreDisplay.style.display = 'block';
 
             // Display the final position text
@@ -112,4 +110,3 @@
     </script>
 </body>
 </html>
-<!-- END GENAI -->
