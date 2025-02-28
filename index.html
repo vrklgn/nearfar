@@ -8,23 +8,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <img id="game-image" src="map.png" alt="Game Image">
+    <div id="game-selection">
+        <h1>Select a game</h1>
+        <button class="game-button" data-game="1">Game 1</button>
+        <button class="game-button" data-game="2">Game 2</button>
+        <button class="game-button" data-game="3">Game 3</button>
+    </div>
+    <div id="game-container" style="display: none;">
+        <img id="game-image" src="" alt="Game Image">
         <div id="marker"></div>
         <div id="confirm-box">
             <button id="confirm-yes">✅ LOCK IN!</button>
         </div>
     </div>
     <div id="position-text"></div>
-    <h2 id="score"></h2>
-    <div id="final-position-text"></div>
+    <h2 id="score" style="display: none;"></h2>
+    <div id="final-position-text" style="display: none;"></div>
 
     <script>
-        const targetPosition = { x: 390, y: 545 }; // Example target position based on fixed container size
-        let selectedPosition = { x: 0, y: 0 };
-        let zoomLevel = 1;
-        let locked = 0;
+        const games = {
+            1: { image: 'map01.png', targetPosition: { x: 390, y: 545 } },
+            2: { image: 'map02.png', targetPosition: { x: 500, y: 300 } },
+            3: { image: 'map03.png', targetPosition: { x: 200, y: 450 } }
+        };
 
+        let selectedPosition = { x: 0, y: 0 };
+        let locked = 0;
+        let currentGame = null;
+
+        const gameSelection = document.getElementById('game-selection');
         const gameContainer = document.getElementById('game-container');
         const gameImage = document.getElementById('game-image');
         const marker = document.getElementById('marker');
@@ -33,17 +45,33 @@
         const scoreDisplay = document.getElementById('score');
         const finalPositionText = document.getElementById('final-position-text');
 
-        gameContainer.addEventListener('click', (event) => {
-            const rect = gameContainer.getBoundingClientRect();
-
-            selectedPosition.x = (event.clientX - rect.left);
-            selectedPosition.y = (event.clientY - rect.top);
-
-            updateMarkerPosition();
+        document.querySelectorAll('.game-button').forEach(button => {
+            button.addEventListener('click', () => {
+                startGame(button.getAttribute('data-game'));
+            });
         });
 
+        function startGame(gameNumber) {
+            currentGame = games[gameNumber];
+            gameImage.src = currentGame.image;
+
+            gameSelection.style.display = 'none';
+            gameContainer.style.display = 'block';
+
+            gameContainer.addEventListener('click', (event) => {
+                if (locked) return;
+
+                const rect = gameContainer.getBoundingClientRect();
+
+                selectedPosition.x = event.clientX - rect.left;
+                selectedPosition.y = event.clientY - rect.top;
+
+                updateMarkerPosition();
+            });
+        }
+
         document.getElementById('confirm-yes').addEventListener('click', () => {
-            const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
+            const distance = Math.sqrt(Math.pow(selectedPosition.x - currentGame.targetPosition.x, 2) + Math.pow(selectedPosition.y - currentGame.targetPosition.y, 2));
             const score = Math.max(0, 100 - distance); // Example scoring formula
             locked = 1;
 
@@ -65,26 +93,19 @@
         });
 
         function updateMarkerPosition() {
-            if (locked == 0) {
-                marker.style.left = `${selectedPosition.x}px`;
-                marker.style.top = `${selectedPosition.y}px`;
-                marker.style.display = 'block';
+            marker.style.left = `${selectedPosition.x - marker.offsetWidth / 2}px`;
+            marker.style.top = `${selectedPosition.y - marker.offsetHeight / 2}px`;
+            marker.style.display = 'block';
 
-                // Position the confirm box above the marker
-                confirmBox.style.left = `${selectedPosition.x}px`;
-                confirmBox.style.top = `${selectedPosition.y - 20}px`; // Adjust the value to control the distance above the marker
-                confirmBox.style.display = 'block';
+            // Position the confirm box above the marker
+            confirmBox.style.left = `${selectedPosition.x}px`;
+            confirmBox.style.top = `${selectedPosition.y - 20}px`; // Adjust the value to control the distance above the marker
+            confirmBox.style.display = 'block';
 
-                // Display the position text
-                positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
-                positionText.style.display = 'block';
-            } else {
-                marker.style.display = 'none';
-                confirmBox.style.display = 'none';
-                positionText.style.display = 'none';
-            }
+            // Display the position text
+            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
+            positionText.style.display = 'block';
         }
-        
     </script>
 </body>
 </html>
