@@ -23,6 +23,7 @@
         const targetPosition = { x: 525, y: 225 }; // Example target position based on fixed container size
         let selectedPosition = { x: 0, y: 0 };
         let zoomLevel = 1;
+        let locked = 0;
 
         const gameContainer = document.getElementById('game-container');
         const gameImage = document.getElementById('game-image');
@@ -44,6 +45,8 @@
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
+            let locked = 1;
+            console.log(locked)
 
             // Hide the image, the confirm button, and the marker
             gameImage.style.display = 'none';
@@ -63,30 +66,29 @@
             finalPositionText.style.display = 'block';
         });
 
-        function updateMarkerPosition() {
-            const rect = gameImage.getBoundingClientRect();
 
-            marker.style.left = `${(selectedPosition.x / gameImage.naturalWidth) * rect.width}px`;
-            marker.style.top = `${(selectedPosition.y / gameImage.naturalHeight) * rect.height}px`;
+        function updateMarkerPosition() {
+            if (locked == 0) {
+            marker.style.left = `${selectedPosition.x * zoomLevel}px`;
+            marker.style.top = `${selectedPosition.y * zoomLevel}px`;
             marker.style.display = 'block';
 
             // Position the confirm box above the marker
-            confirmBox.style.left = `${(selectedPosition.x / gameImage.naturalWidth) * rect.width}px`;
-            confirmBox.style.top = `${(selectedPosition.y / gameImage.naturalHeight) * rect.height - 20}px`; // Adjust the value to control the distance above the marker
+            confirmBox.style.left = `${selectedPosition.x * zoomLevel}px`;
+            confirmBox.style.top = `${selectedPosition.y * zoomLevel - 20}px`; // Adjust the value to control the distance above the marker
             confirmBox.style.display = 'block';
-        }
 
-        // Add event listeners for mouse wheel zoom
-        gameContainer.addEventListener('wheel', (event) => {
-            event.preventDefault();
-            if (event.deltaY < 0) {
-                zoomLevel = Math.min(zoomLevel + 0.1, 3); // Limit max zoom level to 3
+            // Display the position text
+            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
+            positionText.style.display = 'block';
             } else {
-                zoomLevel = Math.max(zoomLevel - 0.1, 1); // Limit min zoom level to 1
+                marker.style.display = 'none';
+                confirm.style.display = 'none';
+                confirmBox.style.display = 'none';
+                positionText.style.display = 'none';
             }
-            gameImage.style.transform = `scale(${zoomLevel})`;
-            updateMarkerPosition();
-        });
+        }
+        
     </script>
 </body>
 </html>
