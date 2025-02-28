@@ -36,8 +36,8 @@
         gameContainer.addEventListener('click', (event) => {
             const rect = gameImage.getBoundingClientRect();
 
-            selectedPosition.x = (event.clientX - rect.left) / rect.width * gameImage.naturalWidth;
-            selectedPosition.y = (event.clientY - rect.top) / rect.height * gameImage.naturalHeight;
+            selectedPosition.x = ((event.clientX - rect.left) / rect.width) * gameImage.width;
+            selectedPosition.y = ((event.clientY - rect.top) / rect.height) * gameImage.height;
 
             updateMarkerPosition();
         });
@@ -45,17 +45,15 @@
         document.getElementById('confirm-yes').addEventListener('click', () => {
             const distance = Math.sqrt(Math.pow(selectedPosition.x - targetPosition.x, 2) + Math.pow(selectedPosition.y - targetPosition.y, 2));
             const score = Math.max(0, 100 - distance / 10); // Example scoring formula
-            let locked = 1;
-            console.log(locked)
+            locked = 1;
 
             // Hide the image, the confirm button, and the marker
             gameImage.style.display = 'none';
             confirmBox.style.display = 'none';
             marker.style.display = 'none';
             positionText.style.display = 'none';
-            positionText.style.color = '#FFF';
 
-            gameContainer.style.display='none';
+            gameContainer.style.display = 'none';
 
             // Display the score in full screen
             scoreDisplay.textContent = `${score.toFixed(2)}`;
@@ -66,24 +64,22 @@
             finalPositionText.style.display = 'block';
         });
 
-
         function updateMarkerPosition() {
             if (locked == 0) {
-            marker.style.left = `${selectedPosition.x * zoomLevel}px`;
-            marker.style.top = `${selectedPosition.y * zoomLevel}px`;
-            marker.style.display = 'block';
+                marker.style.left = `${selectedPosition.x}px`;
+                marker.style.top = `${selectedPosition.y}px`;
+                marker.style.display = 'block';
 
-            // Position the confirm box above the marker
-            confirmBox.style.left = `${selectedPosition.x * zoomLevel}px`;
-            confirmBox.style.top = `${selectedPosition.y * zoomLevel - 20}px`; // Adjust the value to control the distance above the marker
-            confirmBox.style.display = 'block';
+                // Position the confirm box above the marker
+                confirmBox.style.left = `${selectedPosition.x}px`;
+                confirmBox.style.top = `${selectedPosition.y - 20}px`; // Adjust the value to control the distance above the marker
+                confirmBox.style.display = 'block';
 
-            // Display the position text
-            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
-            positionText.style.display = 'block';
+                // Display the position text
+                positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(2)}, ${selectedPosition.y.toFixed(2)})`;
+                positionText.style.display = 'block';
             } else {
                 marker.style.display = 'none';
-                confirm.style.display = 'none';
                 confirmBox.style.display = 'none';
                 positionText.style.display = 'none';
             }
@@ -92,3 +88,4 @@
     </script>
 </body>
 </html>
+<!-- END GENAI -->
