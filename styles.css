@@ -10,6 +10,12 @@ body {
             overflow: hidden;
             color: #FFF;
         }
+.h1 {
+              font-family: "Playwrite IT Moderna", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+}
         #game-container {
             position: relative;
             width: 800px; /* Fixed width for 21:9 ratio */
