@@ -88,11 +88,11 @@
             gameContainer.style.display = 'none';
 
             // Display the score in full screen
-            scoreDisplay.textContent = `${percentageScore.tofixed(3)}%`;
+            scoreDisplay.textContent = `${percentageScore.toFixed(0)}%`;
             scoreDisplay.style.display = 'block';
 
             // Display the final position text
-            finalPositionText.textContent = `Selected Position: (${selectedPosition.x.tofixed(3)}, ${selectedPosition.y.tofixed(3)})`;
+            finalPositionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(0)}, ${selectedPosition.y.toFixed(0)})`;
             finalPositionText.style.display = 'block';
         });
 
@@ -113,7 +113,7 @@
             confirmBox.style.display = 'block';
 
             // Display the position text
-            positionText.textContent = `Selected Position: (${selectedPosition.x.tofixed(3)}, ${selectedPosition.y.tofixed(3)})`;
+            positionText.textContent = `Selected Position: (${selectedPosition.x.toFixed(0)}, ${selectedPosition.y.toFixed(0)})`;
             positionText.style.display = 'block';
         }
     </script>
